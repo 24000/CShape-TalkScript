@@ -22,7 +22,7 @@ namespace TalkScript.Viewer.ControlManage
         private Form1 _view;
         private TextBox mark;
         /// <summary>
-        /// コンストラクタ。初期配置コントロールの作成
+        /// コンストラクタ。初期配置コントロールの作成・・
         /// </summary>
         public ControlFactory(Form1 view)
         {
