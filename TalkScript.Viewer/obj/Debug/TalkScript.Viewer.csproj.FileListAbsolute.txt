@@ -1,0 +1,11 @@
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.Form1.resources
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.Properties.Resources.resources
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.csproj.GenerateResource.cache
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\bin\Debug\TalkScript.Viewer.exe.config
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\bin\Debug\TalkScript.Viewer.exe
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\bin\Debug\TalkScript.Viewer.pdb
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.exe
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.pdb
+C:\Users\user\Desktop\プログラム各種\C#\TalkScript\TalkScript.Viewer\obj\Debug\TalkScript.Viewer.PopUp.PopUpForm.resources

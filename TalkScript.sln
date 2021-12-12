@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalkScript.Viewer", "TalkScript.Viewer\TalkScript.Viewer.csproj", "{2EC58C9F-A35D-49F3-9795-07DD5376593F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EC58C9F-A35D-49F3-9795-07DD5376593F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC58C9F-A35D-49F3-9795-07DD5376593F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC58C9F-A35D-49F3-9795-07DD5376593F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC58C9F-A35D-49F3-9795-07DD5376593F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC169270-D892-43FB-878B-EBD07D8ACCD3}
+	EndGlobalSection
+EndGlobal
