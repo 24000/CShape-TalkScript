@@ -22,7 +22,7 @@ namespace TalkScript.Viewer.ControlManage
         private Form1 _view;
         private TextBox mark;
         /// <summary>
-        /// コンストラクタ。初期配置コントロールの作成・・
+        /// コンストラクタ。初期配置コントロールの作成。
         /// </summary>
         public ControlFactory(Form1 view)
         {
@@ -87,6 +87,14 @@ namespace TalkScript.Viewer.ControlManage
             else
             {
                 MakeEndArea(top, groupNum);
+                try
+                {
+
+                }
+                catch
+                {
+
+                }
             }
         }
 
@@ -123,8 +131,12 @@ namespace TalkScript.Viewer.ControlManage
             ClearButton clearButton = new ClearButton( _view,groupNum, logButton);
             panel.Controls.Add(clearButton);
             Control[] c = _view.Controls.Find(groupNum.ToString() + "\\1\\lbl", true);
-            _view.Controls.Remove(c[0]);
-            _view.ScrollControlIntoView(panel);
+            if (c.Count() != 0)
+            {
+                _view.Controls.Remove(c[0]);
+                _view.ScrollControlIntoView(panel);
+            }
+            
         }
 
         /// <summary>

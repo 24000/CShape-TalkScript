@@ -10,8 +10,9 @@ namespace TalkScript.Viewer.Controls
     {
         public EndAreaFlowPanel(int GroupNum)
         {
-            Name = (GroupNum + 1).ToString() + "\\1\\flp";
-            Dock =DockStyle.Bottom;
+            //Name = (GroupNum + 1).ToString() + "\\1\\flp";
+            Name =  "99\\1\\flp";
+            Dock = DockStyle.Bottom;
             //Location = new System.Drawing.Point(0, 476);
             Size = new System.Drawing.Size(678, 58);
         }

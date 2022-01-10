@@ -43,9 +43,10 @@ namespace TalkScript.Viewer.Controls
             _caption = CapAndTalkName[0];
             _talkName = CapAndTalkName[1];
 
-            this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-            this.Text = _caption;
-            this.Click += radioButton1_CheckedChanged;
+            Anchor = AnchorStyles.Left | AnchorStyles.Top;
+            Font = _view.MyFont;
+            Text = _caption;
+            Click += radioButton1_CheckedChanged;
         }
 
         /// <summary>

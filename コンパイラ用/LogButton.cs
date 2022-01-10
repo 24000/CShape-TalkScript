@@ -20,6 +20,7 @@ namespace TalkScript.Viewer.Controls
             Name = name;
             Size = new System.Drawing.Size(116, 53);
             TabIndex = 0;
+            Font = _view.MyFont;
             Text = ButtonCaption;
             UseVisualStyleBackColor = true;
             Click += LogCopy_Click;

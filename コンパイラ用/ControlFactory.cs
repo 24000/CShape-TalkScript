@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalkScript.Viewer.Controls;
+using TalkScript.Viewer.PopUp;
 
 namespace TalkScript.Viewer.ControlManage
 {
@@ -21,7 +22,7 @@ namespace TalkScript.Viewer.ControlManage
         private Form1 _view;
         private TextBox mark;
         /// <summary>
-        /// コンストラクタ。初期配置コントロールの作成
+        /// コンストラクタ。初期配置コントロールの作成。
         /// </summary>
         public ControlFactory(Form1 view)
         {
@@ -34,12 +35,24 @@ namespace TalkScript.Viewer.ControlManage
         /// <param name="top"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public TextBox MakeOpeningTextBox(int top ,string name)
+        public ScriptTextBox MakeOpeningTextBox(int top )
         {
-            ScriptTextBox txt 
-                = new ScriptTextBox(_view, top, TextBoxName, _view.TSVData.OpeningTalk);
+            string talk = _view.TSVData.OpeningTalk;
+            ScriptTextBox txt = new ScriptTextBox(_view, top, TextBoxName,talk);
             _view.Controls.Add(txt);
             return txt;
+        }
+
+        /// <summary>
+        /// コンテキストメニュー作成
+        /// </summary>
+        /// <param name="isFirstForm"></param>
+        /// <returns></returns>
+        public MyContextMenu MakeContextMenu(bool isFirstForm)
+        {
+            MyContextMenu menu = new MyContextMenu(_view, isFirstForm);
+            _view.ContextMenuStrip = menu;
+            return menu;
         }
 
         /// <summary>
@@ -61,6 +74,7 @@ namespace TalkScript.Viewer.ControlManage
         /// <param name="branchNum"></param>
         public void MakeNextArea(Control ctrl,  int groupNum = 0, int branchNum = 0)
         {
+            ControlPopUp(_view,groupNum);
             ScriptTextBox txt = MakeScriptTextBox(ctrl,groupNum);
             TextBox mark = MakeMark(txt, groupNum);
             int top = txt.Top + txt.Height ;
@@ -68,7 +82,7 @@ namespace TalkScript.Viewer.ControlManage
             int choiceCount = _view.TSVData.GetNextGroupChoiceCount(groupNum);
             if(choiceCount != 0)
             {
-                MakeContinueArea(choiceCount,top, groupNum, branchNum);
+                MakeContinueArea(choiceCount,txt, groupNum, branchNum);
             }
             else
             {
@@ -83,13 +97,14 @@ namespace TalkScript.Viewer.ControlManage
         /// <param name="top"></param>
         /// <param name="groupNum"></param>
         /// <param name="branchNum"></param>
-        private void MakeContinueArea( int choiceCount,int top, int groupNum = 0, int branchNum = 0)
+        private void MakeContinueArea( int choiceCount,TextBox txt, int groupNum = 0, int branchNum = 0)
         {
             string name = (groupNum + 1).ToString() + "\\1" + "\\tlp";
+            int top = txt.Top + txt.Height + Interval;
             ChoiceTableLayoutPanel panel = MakeChoiceTableLayoutPanel(top, name, choiceCount);
             List<string[]> talkNames = _view.TSVData.GetNextGroupTalkNames(groupNum);
             MakeChoiceRadioButtons(panel, groupNum, talkNames, choiceCount);
-            _view.Scrolling(groupNum, panel);
+            _view.Scrolling(groupNum, panel,txt);
         }
 
         /// <summary>
@@ -107,8 +122,25 @@ namespace TalkScript.Viewer.ControlManage
             panel.Controls.Add(logButton);
             ClearButton clearButton = new ClearButton( _view,groupNum, logButton);
             panel.Controls.Add(clearButton);
-            _view.ScrollingAnimation(panel);
+            Control[] c = _view.Controls.Find(groupNum.ToString() + "\\1\\lbl", true);
+            _view.Controls.Remove(c[0]);
+            _view.ScrollControlIntoView(panel);
+        }
 
+        /// <summary>
+        /// PopUpの操作
+        /// </summary>
+        /// <param name="_view"></param>
+        /// <param name="groupNum"></param>
+        private void ControlPopUp(Form1 _view,int groupNum)
+        {
+            PopUpControler popUpCtrler = new PopUpControler(_view, groupNum);
+            popUpCtrler.ClosePreviousePopUpIfShow();
+            if (popUpCtrler.IsNeedNewPopUp())
+            {
+                PopUpForm popUp = popUpCtrler.MakePopUp();
+               
+            }
         }
 
         /// <summary>
@@ -123,9 +155,8 @@ namespace TalkScript.Viewer.ControlManage
             
             int top = ctrl.Top + ctrl.Height + Interval;
             string name = (groupNum + 1).ToString() + "\\1" + "\\txt";
-            string script = _view.TSVData.Script[_view.TSVData.SelectedTalks[groupNum]]
-                                            [1].Replace("|", "/n");
-            ScriptTextBox txt =new ScriptTextBox(_view,top, name,script);
+            string talk = _view.TSVData.GetTalk(groupNum);
+            ScriptTextBox txt =new ScriptTextBox(_view,top, name,talk);
             _view.Controls.Add(txt);
             return txt;
         }
@@ -202,7 +233,8 @@ namespace TalkScript.Viewer.ControlManage
         private ScriptTextBox MakeEndingTextBox(int top,int groupNum)
         {
             string name = (groupNum + 1).ToString() + "\\1\\txt";
-            ScriptTextBox txt= new ScriptTextBox(_view, top, name, _view.TSVData.EndingTalk);
+            string talk = _view.TSVData.EndingTalk;
+            ScriptTextBox txt= new ScriptTextBox(_view, top, name,talk );
             _view.Controls.Add(txt);
             return txt;
         }

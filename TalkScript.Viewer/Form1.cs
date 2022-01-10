@@ -64,8 +64,8 @@ namespace TalkScript.Viewer
             if( CurrentGroup!= 0)
             {
                 PreviousGroup = CurrentGroup;
-                CurrentGroup = groupNum;
             }
+            CurrentGroup = groupNum;
         }
 
         /// <summary>
@@ -132,5 +132,9 @@ namespace TalkScript.Viewer
             TSVData.SelectedTalks.Clear();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

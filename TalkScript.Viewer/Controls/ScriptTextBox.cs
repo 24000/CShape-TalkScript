@@ -20,7 +20,7 @@ namespace TalkScript.Viewer.Controls
             Left = 10;
             MinimumSize = new Size(50, 30);
             //Height = ((int)(_view.Height * 0.3));
-            Width = ((int)(_view.Width * 0.92));
+            Width = ((int)(_view.Width * 0.85));
             Font = _view.Font;
             ReadOnly = true;
             BackColor = TextBackColor;
@@ -45,6 +45,12 @@ namespace TalkScript.Viewer.Controls
                 {
                     break;
                 }
+                
+                if(firstChar > Text.Length-1)
+                {
+                    break;
+                }
+
                 lineHight = TextRenderer.MeasureText(Text[firstChar].ToString(), font).Height;
                 textHeight += lineHight;
                 lineCount++;

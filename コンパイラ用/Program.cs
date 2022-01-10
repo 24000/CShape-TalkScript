@@ -22,7 +22,7 @@ namespace TalkScript.Viewer
                 return;
             }
 
-            Application.Run(new Form1(tsvData));
+            Application.Run(new Form1(tsvData,true));
            
         }
     }

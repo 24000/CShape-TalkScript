@@ -46,8 +46,8 @@ namespace TalkScript.Viewer
             {
                 string line = sr.ReadToEnd();
                 string[] contents = line.Split('\t');
-                OpeningTalk = contents[0].Replace('|', '\n');
-                EndingTalk = contents[1].Replace('|', '\n');
+                OpeningTalk = contents[0].Replace("|", "\r\n");
+                EndingTalk = contents[1].Replace("|", "\r\n");
                 ScriptFolderPath = contents[2].Trim('"');
                 contents[3] = contents[3].Replace("\r", "").Replace("\n", "");
                 ScriptTitles = contents[3].Split('|');
@@ -154,13 +154,94 @@ namespace TalkScript.Viewer
         }
 
         /// <summary>
-        ///  追加したTextBoxへｽｸﾘﾌﾟﾄを表示
+        ///  選択された選択肢のトークを返す
         /// </summary>
-        //public string SetScriptToTextBox(int groupNum)
-        //{
-        //    //return script(shpNames(groupNum))(1), "|", vbLf)
-        //}
+        public string GetTalk(int groupNum)
+        {
+            return Script[SelectedTalks[groupNum]][1].Replace("|", "\r\n");
+        }
 
+        /// <summary>
+        /// 選択された選択肢のトークについての注意事項有無を返す
+        /// </summary>
+        /// <param name="groupNum"></param>
+        /// <returns></returns>
+        public int GetWarningCount(int groupNum)
+        {
+            if(Script[SelectedTalks[groupNum]][10] != "")
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 選択された選択肢のトークについてのリンク情報の個数を返す
+        /// </summary>
+        /// <param name="groupNum"></param>
+        /// <returns></returns>
+        public int GetLinkInfoCount(int groupNum)
+        {
+            if(Script[SelectedTalks[groupNum]][11] == "")
+            {
+                return 0;
+            }
+
+            int count = 0;
+            for(int i = 11; i <= 14; i++)
+            {
+                if(Script[SelectedTalks[groupNum]][i] != "")
+                {
+                    count++ ;
+                }
+                else
+                {
+                    return count;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// 注意事項の内容を返す
+        /// </summary>
+        /// <param name="groupNum"></param>
+        /// <returns></returns>
+        public List<string> GetWarning(int groupNum)
+        {
+            var warning = new List<string>();
+            if (Script[SelectedTalks[groupNum]][10] != "")
+            {
+                warning.Add(Script[SelectedTalks[groupNum]][10]);
+            }
+            return warning;
+        }
+
+        /// <summary>
+        /// 択された選択肢のトークについてのリンク情報のリストを返す。
+        /// </summary>
+        /// <param name="groupNum"></param>
+        /// <returns></returns>
+        public List<string> GetLinkInfos(int groupNum)
+        {
+            var linkInfos = new List<string>();
+            if (Script[SelectedTalks[groupNum]][11] == "")
+            {
+                return linkInfos;
+            }
+
+            for(int i = 11; i <= 14; i++){
+                if(Script[SelectedTalks[groupNum]][i] != "")
+                {
+                    linkInfos.Add(Script[SelectedTalks[groupNum]][i]);
+                }
+            }
+            return linkInfos;
+        }
+            
 
     }
 }

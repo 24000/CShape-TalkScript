@@ -9,61 +9,52 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalkScript.Viewer.Controls;
 using TalkScript.Viewer.ControlManage;
+using TalkScript.Viewer.PopUp;
 
 namespace TalkScript.Viewer
 {
     public partial class Form1 : Form
     {
-        private ComboBox _fontSize;
+        private const string ViewerName1 = "ScriptViewer";
+        private const string ViewerName2 = "ScriptViewer2";
+
         public ControlFactory CtrlFactory { get; private set; } 
         public ControlDestroyer CtrlDestroyer { get; private set; }
 
         public TSVDataGetter TSVData { get; private set; }
-        public int CurrentGroup { set; get; }
-        public int PreviousGroup { set; get; }
-        public string LogMsg { set; get; }
-
+        public int CurrentGroup { get; set; }
+        public int PreviousGroup { get; set; }
+        public PopUpForm PopUpF { get; set; }
+        public string LogMsg { get; set; }
+        public Font MyFont { get; set; }
+        
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Form1(TSVDataGetter tsvData)
+        public Form1(TSVDataGetter tsvData,bool isFirstForm)
         {
             InitializeComponent();
-            AutoScrollMargin = new Size(50, 0);
-            Top = 0;
-            Left = 0;
+            MyFont = new Font("Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Point, 128);
             CtrlFactory = new ControlFactory(this);
             CtrlDestroyer = new ControlDestroyer(this);
-            FontSizeCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            for (int i = 8; i < 28; i++)
+
+            if (isFirstForm)
             {
-                FontSizeCombo.Items.Add(i);
+                Text = ViewerName1;
             }
-            _fontSize = FontSizeCombo;
-            FontSizeCombo.SelectedItem = 12;
+            else
+            {
+                Text = ViewerName2;
+                StartPosition = FormStartPosition.CenterParent;
+                BackColor = Color.Gainsboro;
+            }
+            MyContextMenu menu = CtrlFactory.MakeContextMenu(isFirstForm);
 
             TSVData = tsvData;
-            TextBox txt = CtrlFactory.MakeOpeningTextBox(60, "OpeningTxt");
-            CtrlFactory.MakeScriptSelectComboBox(txt.Top+txt.Height + 10);       
+            ScriptTextBox txt =CtrlFactory.MakeOpeningTextBox(40);
+            CtrlFactory.MakeScriptSelectComboBox(txt.Top+txt.Height + 10);
         }
-
-        /// <summary>
-        /// フォントサイズComboBoxのSelectedIndexChangeｄ用ハンドラー
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FontSizeCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl is TextBox)
-                {
-                    ctrl.Font = new Font("Meiryo UI", Convert.ToSingle(_fontSize.SelectedItem),
-                                                    FontStyle.Regular, GraphicsUnit.Point);
-                }
-            }
-        }
-
+   
         /// <summary>
         /// 現在選択されているGroupを更新する。
         /// </summary>
@@ -82,38 +73,52 @@ namespace TalkScript.Viewer
         /// </summary>
         /// <param name="groupNum"></param>
         /// <param name="panel"></param>
-        public void Scrolling(int groupNum, ChoiceTableLayoutPanel panel)
+        public void Scrolling(int groupNum, ChoiceTableLayoutPanel panel,TextBox txt)
         {
             Label lbl = new Label();
             lbl.Name = (groupNum + 1).ToString() + "\\1\\lbl";
             lbl.Height = 40;
             lbl.Width = 1;
             lbl.Text = "a";
-            lbl.Top = panel.Top + (int)(Height * 0.4) + 40;
+            lbl.Top = txt.Location.Y + Height;
 
             Controls.Add(lbl);
 
-            ScrollingAnimation(lbl);
+            ScrollingAnimation(lbl,panel,txt);
         }
 
         /// <summary>
         /// アニメーションでスクロールする。
         /// </summary>
         /// <param name="ctrl"></param>
-        public void ScrollingAnimation(Control ctrl)
+        public void ScrollingAnimation(Control ctrl, Control panel = null,Control txt = null)
         {
             int StartPos = AutoScrollPosition.Y;
-            ScrollControlIntoView(ctrl);
-            int TargetPos = AutoScrollPosition.Y;
-            AutoScrollPosition = new Point(0, -StartPos);
-            for (int i = StartPos; i >= TargetPos; i -= 4)
+            
+            if (txt != null)
             {
-                if (i % 10 == 0)
+                ScrollControlIntoView(ctrl);
+                int TargetPos = AutoScrollPosition.Y;
+                TargetPos -= txt.Location.Y - 90;
+                AutoScrollPosition = new Point(0, -StartPos);
+                for (int i = StartPos; i >= TargetPos; i -= 4)
                 {
-                    Refresh();
+                    if (i % 10 == 0)
+                    {
+                        Refresh();
+                    }
+                    AutoScrollPosition = new Point(0, -i);
                 }
-                AutoScrollPosition = new Point(0, -i);
             }
+            else
+            {
+                if(panel != null)
+                {
+                    ScrollControlIntoView(panel);
+                }
+            }
+
+            
         }
 
         /// <summary>
@@ -127,11 +132,5 @@ namespace TalkScript.Viewer
             TSVData.SelectedTalks.Clear();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        
     }
 }

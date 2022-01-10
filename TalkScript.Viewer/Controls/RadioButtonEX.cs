@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using TalkScript.Viewer;
 
@@ -21,7 +22,6 @@ namespace TalkScript.Viewer.Controls
         internal string _caption { get; private set; }
         Form1 _view;
         ChoiceTableLayoutPanel _panel;
-        
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -44,7 +44,7 @@ namespace TalkScript.Viewer.Controls
             _talkName = CapAndTalkName[1];
 
             Anchor = AnchorStyles.Left | AnchorStyles.Top;
-            Font = _view.MyFont;
+            Font = new Font("Meiryo UI", 9, FontStyle.Regular, GraphicsUnit.Point, 128);
             Text = _caption;
             Click += radioButton1_CheckedChanged;
         }

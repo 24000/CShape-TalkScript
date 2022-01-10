@@ -32,7 +32,7 @@ namespace TalkScript.Viewer.Controls
             Left = 6;
             Width = 300;
             Height = 80;
-            Font = new Font("Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Point);
+            Font = _view.MyFont;
             KeyPress += Combo_KeyPress;
             SelectedIndexChanged += Combo_SelectedIndexChaneged;
         }

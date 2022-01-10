@@ -22,28 +22,30 @@ namespace TalkScript.Viewer.ControlManage
         public void DeleteAllAddedControl()
         {
             int num;
-            for (int i = _view.Controls.Count - 1; i >= 0; i--) {
-                string[] tmpNameSplit = _view.Controls[i].Name.Split('\\');
+            List < Control > DeleteTarget = new List<Control>();
+
+            foreach (Control  c in _view.Controls) {
+                string[] tmpNameSplit = c.Name.Split('\\');
                 if (Int32.TryParse(tmpNameSplit[0], out num) == false)
                 {
                     continue;
                 }
 
-                if (_view.Controls[i].GetType().Name == "ChoiceTableLayoutPanel"
-                    || _view.Controls[i].GetType().Name == "EndAreaFlowPanel")
+                if (c.GetType().Name == "ChoiceTableLayoutPanel"
+                    ||c.GetType().Name == "EndAreaFlowPanel")
                 {
-                    for (int j = _view.Controls[i].Controls.Count - 1; j >= 0; j--)
+                    for (int j = c.Controls.Count - 1; j >= 0; j--)
                     {
-                        _view.Controls[i].Controls.Remove(_view.Controls[i].Controls[j]);
+                        c.Controls.Remove(c.Controls[j]);
                     }
-                    _view.Controls.Remove(_view.Controls[i]);
+                    DeleteTarget.Add(c);
                 }
                 else
                 {
-                    _view.Controls.Remove(_view.Controls[i]);
+                    DeleteTarget.Add(c);
                 }
-
             }
+            DeleteTarget.ForEach(x => _view.Controls.Remove(x));
         }
 
         /// <summary>
@@ -53,11 +55,17 @@ namespace TalkScript.Viewer.ControlManage
         /// </summary>
         public void DeleteNotNeedCtrls(int groupNum)
         {
-            int num;
-            for (int i = _view.Controls.Count - 1;  i >= 0;  i--)
+            Control[] ctrls = _view.Controls.Find("99\\1\\flp", true);
+            if (ctrls.Count() != 0)
             {
-                string s = _view.Controls[i].GetType().Name;
-                string[] tmpNameSplit = _view.Controls[i].Name.Split('\\');
+                MessageBox.Show("a");
+            }
+            int num;
+            List<Control> DeleteTarget = new List<Control>();
+            foreach ( Control c in _view.Controls)
+            {
+                string s = c.GetType().Name;
+                string[] tmpNameSplit = c.Name.Split('\\');
                 bool canParse = Int32.TryParse(tmpNameSplit[0], out num);
                 if (canParse == false)
                 {
@@ -68,21 +76,23 @@ namespace TalkScript.Viewer.ControlManage
                 {
                     continue;
                 }
-                
-                if (_view.Controls[i].GetType().Name == "ChoiceTableLayoutPanel"
-                    || _view.Controls[i].GetType().Name == "EndAreaFlowPanel")
+
+                if (c.GetType().Name == "ChoiceTableLayoutPanel"
+                    || c.GetType().Name == "EndAreaFlowPanel")
                 {
-                    for (int j = _view.Controls[i].Controls.Count - 1; j >= 0; j--)
+                    for (int j = c.Controls.Count - 1; j >= 0; j--)
                     {
-                        _view.Controls[i].Controls.Remove(_view.Controls[i].Controls[j]);
+                        c.Controls.Remove(c.Controls[j]);
                     }
-                    _view.Controls.Remove(_view.Controls[i]);
+                    DeleteTarget.Add(c);
                 }
                 else
                 {
-                    _view.Controls.Remove(_view.Controls[i]);
+                    DeleteTarget.Add(c);
                 }
             }
+            
+            DeleteTarget.ForEach(x => _view.Controls.Remove(x));
         }
             
 

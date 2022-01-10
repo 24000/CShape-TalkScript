@@ -29,6 +29,7 @@ namespace TalkScript.Viewer.Controls
             Location = new System.Drawing.Point(3, 3);
             Size = new System.Drawing.Size(116, 53);
             TabIndex = 0;
+            Font = _view.MyFont;
             Text = ButtonCaption;
             UseVisualStyleBackColor = true;
             Click += Clear_Click;

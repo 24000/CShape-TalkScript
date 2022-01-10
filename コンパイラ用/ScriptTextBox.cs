@@ -10,27 +10,49 @@ namespace TalkScript.Viewer.Controls
 {
     public sealed class ScriptTextBox : TextBox
     {
-        private const int TextHeight = 100;
         private Color TextBackColor = Color.White;
-        private Font TextFont = new Font("Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Point, 128);
 
-        public ScriptTextBox(Form1 _view, int top, string name,string script)
+        public ScriptTextBox(Form _view, int top, string name,string talk)
         {
             Name = name;
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Top = top;
             Left = 10;
             MinimumSize = new Size(50, 30);
-            Height = ((int)(_view.Height * 0.3));
+            //Height = ((int)(_view.Height * 0.3));
             Width = ((int)(_view.Width * 0.92));
-            Font = TextFont;
+            Font = _view.Font;
             ReadOnly = true;
             BackColor = TextBackColor;
             Multiline = true;
             WordWrap = true;
-            Text = script;
-            AutoSize = true;
+            Text = talk;
+            AutoSize = false;
             ScrollBars = ScrollBars.Vertical;
+            Height = GetTextBoxHeght(_view.Font);
         }
+
+        public int GetTextBoxHeght(Font font)
+        {
+            int lineCount = 0;
+            int firstChar = 0;
+            int lineHight = 0;
+            int textHeight = 0;
+            do
+            {
+                firstChar =  GetFirstCharIndexFromLine(lineCount);
+                if(firstChar == -1)
+                {
+                    break;
+                }
+                lineHight = TextRenderer.MeasureText(Text[firstChar].ToString(), font).Height;
+                textHeight += lineHight;
+                lineCount++;
+            } while (true);
+
+            textHeight += Margin.Vertical *2;
+            return textHeight;
+        }
+
     }
 }
