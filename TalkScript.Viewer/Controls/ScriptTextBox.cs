@@ -20,7 +20,7 @@ namespace TalkScript.Viewer.Controls
             Left = 10;
             MinimumSize = new Size(50, 30);
             //Height = ((int)(_view.Height * 0.3));
-            Width = ((int)(_view.Width * 0.85));
+            Width = ((int)(_view.ClientSize.Width * 0.85));
             Font = _view.Font;
             ReadOnly = true;
             BackColor = TextBackColor;

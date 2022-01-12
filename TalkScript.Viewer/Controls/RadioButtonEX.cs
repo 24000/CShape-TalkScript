@@ -42,7 +42,12 @@ namespace TalkScript.Viewer.Controls
             _panel = panel;
             _caption = CapAndTalkName[0];
             _talkName = CapAndTalkName[1];
-
+            if (_caption.Length >= 7)
+            {
+                _caption.Insert(7, Environment.NewLine);
+            }
+            Height = 70;
+            Width = 200;
             Anchor = AnchorStyles.Left | AnchorStyles.Top;
             Font = new Font("Meiryo UI", 9, FontStyle.Regular, GraphicsUnit.Point, 128);
             Text = _caption;

@@ -23,7 +23,7 @@ namespace TalkScript.Viewer.Controls
             {
                 RowCount = 0;
                 RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-                Size = new Size(((int)(_view.Width * 0.92)), 40);
+                Size = new Size(((int)(_view.Width * 0.92)), 60);
             }
             else
             {

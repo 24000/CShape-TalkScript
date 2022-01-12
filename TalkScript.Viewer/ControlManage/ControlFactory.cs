@@ -67,11 +67,11 @@ namespace TalkScript.Viewer.ControlManage
         }
 
         /// <summary>
-        /// 次のグループのコントロール群を作成
+        /// コンボボックスかラジオボタンから呼ばれ、次のグループのコントロール群を作成。
         /// </summary>
-        /// <param name="ctrl"></param>
-        /// <param name="groupNum"></param>
-        /// <param name="branchNum"></param>
+        /// <param name="ctrl">コンボボックスorChoiceLayoutPanelがくる</param>
+        /// <param name="groupNum">呼元＝コンボ→０、ラジオボタン→そのラジオボタンのグループ番号</param>
+        /// <param name="branchNum">呼元＝コンボ→０、ラジオボタン→そのラジオボタンのグループ内番号</param>
         public void MakeNextArea(Control ctrl,  int groupNum = 0, int branchNum = 0)
         {
             ControlPopUp(_view,groupNum);
@@ -83,6 +83,7 @@ namespace TalkScript.Viewer.ControlManage
             if(choiceCount != 0)
             {
                 MakeContinueArea(choiceCount,txt, groupNum, branchNum);
+                _view.Scrolling(groupNum, ctrl,txt);
             }
             else
             {
@@ -102,7 +103,7 @@ namespace TalkScript.Viewer.ControlManage
         /// 継続エリアを作成
         /// </summary>
         /// <param name="choiceCount"></param>
-        /// <param name="top"></param>
+        /// <param name="txt">次グループのテキストボックスが来る</param>
         /// <param name="groupNum"></param>
         /// <param name="branchNum"></param>
         private void MakeContinueArea( int choiceCount,TextBox txt, int groupNum = 0, int branchNum = 0)
@@ -112,7 +113,6 @@ namespace TalkScript.Viewer.ControlManage
             ChoiceTableLayoutPanel panel = MakeChoiceTableLayoutPanel(top, name, choiceCount);
             List<string[]> talkNames = _view.TSVData.GetNextGroupTalkNames(groupNum);
             MakeChoiceRadioButtons(panel, groupNum, talkNames, choiceCount);
-            _view.Scrolling(groupNum, panel,txt);
         }
 
         /// <summary>

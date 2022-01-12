@@ -72,8 +72,8 @@ namespace TalkScript.Viewer
         /// フォームをスクロールさせる。
         /// </summary>
         /// <param name="groupNum"></param>
-        /// <param name="panel"></param>
-        public void Scrolling(int groupNum, ChoiceTableLayoutPanel panel,TextBox txt)
+        /// <param name="ctrl">コンボボックスかChoiceTableLayoutPanel</param>
+        public void Scrolling(int groupNum, Control ctrl, TextBox txt)///ChoiceTableLayoutPanel panel,TextBox txt)
         {
             Label lbl = new Label();
             lbl.Name = (groupNum + 1).ToString() + "\\1\\lbl";
@@ -81,44 +81,49 @@ namespace TalkScript.Viewer
             lbl.Width = 1;
             lbl.Text = "a";
             lbl.Top = txt.Location.Y + Height;
-
             Controls.Add(lbl);
 
-            ScrollingAnimation(lbl,panel,txt);
+            ScrollingAnimation( ctrl, txt);
         }
 
         /// <summary>
         /// アニメーションでスクロールする。
         /// </summary>
         /// <param name="ctrl"></param>
-        public void ScrollingAnimation(Control ctrl, Control panel = null,Control txt = null)
+        public void ScrollingAnimation(Control ctrl,Control txt = null)
         {
             int StartPos = AutoScrollPosition.Y;
-            
-            if (txt != null)
-            {
-                ScrollControlIntoView(ctrl);
-                int TargetPos = AutoScrollPosition.Y;
-                TargetPos -= txt.Location.Y - 90;
-                AutoScrollPosition = new Point(0, -StartPos);
-                for (int i = StartPos; i >= TargetPos; i -= 4)
+            int i = -StartPos ;
+     
+                while(ctrl.Location.Y > 10)
                 {
-                    if (i % 10 == 0)
+                    i += 10;
+                    if (i % 20 == 0)
                     {
                         Refresh();
                     }
-                    AutoScrollPosition = new Point(0, -i);
+                    AutoScrollPosition = new Point(0, i );
                 }
-            }
-            else
-            {
-                if(panel != null)
-                {
-                    ScrollControlIntoView(panel);
-                }
-            }
-
-            
+                //ScrollControlIntoView(ctrl);
+                //int TargetPos = AutoScrollPosition.Y;
+                //TargetPos -= txt.Location.Y - 90;
+                //AutoScrollPosition = new Point(0, -StartPos);
+                //for (int i = StartPos; i >= TargetPos; i -= 4)
+                //{
+                //    if (i % 10 == 0)
+                //    {
+                //        Refresh();
+                //    }
+                //    AutoScrollPosition = new Point(0, -i);
+                //}
+            //}
+            //else
+            //{
+            //    if(panel != null)
+            //    {
+            //        ScrollControlIntoView(panel);
+            //    }
+            //}
         }
 
         /// <summary>
