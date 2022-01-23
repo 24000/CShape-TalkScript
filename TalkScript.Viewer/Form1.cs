@@ -77,10 +77,11 @@ namespace TalkScript.Viewer
         {
             Label lbl = new Label();
             lbl.Name = (groupNum + 1).ToString() + "\\1\\lbl";
-            lbl.Height = 40;
+            lbl.Height = 1;
             lbl.Width = 1;
-            lbl.Text = "a";
-            lbl.Top = txt.Location.Y + Height;
+            lbl.Text = groupNum.ToString();
+            //lbl.Top = txt.Location.Y + Height;
+            lbl.Top = ctrl.Location.Y  -10 + ClientSize.Height;
             Controls.Add(lbl);
 
             ScrollingAnimation( ctrl, txt);

@@ -88,6 +88,7 @@ namespace TalkScript.Viewer.ControlManage
             else
             {
                 MakeEndArea(top, groupNum);
+                _view.Scrolling(groupNum, ctrl, txt);
                 try
                 {
 

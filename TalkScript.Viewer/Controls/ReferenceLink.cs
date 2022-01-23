@@ -107,6 +107,7 @@ namespace TalkScript.Viewer.Controls
             dynamic xlSheets = null;
             dynamic xlSheet = null;
             dynamic xlRange = null;
+            bool isExistSheet = false;
             try
             {
                 xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
@@ -116,31 +117,44 @@ namespace TalkScript.Viewer.Controls
                     try
                     {
                         xlBook = xlBooks.open(_linkAddress);
+                        xlApp.Visible = true;
                         try
                         {
+
                             xlSheets = xlBook.Worksheets;
-                            try
+                            foreach(dynamic ws in xlSheets)
                             {
-                                xlSheet = xlSheets[_sheetName];
-                                xlApp.Visible = true;
-                                xlSheet.Select();
-                                if(xlApp.Evaluate("ISREF(" + _cellAddress + ")"))
+                                if (ws.Name == _sheetName)
                                 {
+                                    isExistSheet = true;
                                     try
                                     {
-                                        xlRange = xlSheet.Range[_cellAddress];
-                                        xlRange.Show();
-                                        xlRange.Select();
+                                        xlSheet = xlSheets[_sheetName];
+                                        xlSheet.Select();
+                                        if (xlApp.Evaluate("ISREF(" + _cellAddress + ")"))
+                                        {
+                                            try
+                                            {
+                                                xlRange = xlSheet.Range[_cellAddress];
+                                                xlRange.Show();
+                                                xlRange.Select();
+                                            }
+                                            finally
+                                            {
+                                                Marshal.ReleaseComObject(xlRange);
+                                            }
+                                        }
                                     }
                                     finally
                                     {
-                                        Marshal.ReleaseComObject(xlRange);
+                                        Marshal.ReleaseComObject(xlSheet);
                                     }
                                 }
                             }
-                            finally
+                            if(isExistSheet== false)
                             {
-                                Marshal.ReleaseComObject(xlSheet);
+                                MessageBox.Show("指定されたシート名のシートが存在しないため、\n" +
+                                                            "ファイルのみ開きました。");
                             }
                         }
                         finally

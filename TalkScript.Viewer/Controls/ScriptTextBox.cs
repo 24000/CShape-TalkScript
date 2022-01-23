@@ -19,6 +19,7 @@ namespace TalkScript.Viewer.Controls
             Top = top;
             Left = 10;
             MinimumSize = new Size(50, 30);
+            MaximumSize = new Size(2000, (int)((int)_view.ClientSize.Height * 0.5));
             //Height = ((int)(_view.Height * 0.3));
             Width = ((int)(_view.ClientSize.Width * 0.85));
             Font = _view.Font;
